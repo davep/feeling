@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Import public code.
-from .feelings import Feeling, Feelings
+from .feelings import Feeling, Feelings, scale_names, scale_from_name
 from .storage  import save, load
 
 ##############################################################################
@@ -10,6 +10,8 @@ from .storage  import save, load
 __all__ = [
     "Feeling",
     "Feelings",
+    "scale_names",
+    "scale_from_name",
     "save",
     "load"
 ]

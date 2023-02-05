@@ -19,6 +19,43 @@ class Scale( Enum ):
     VERY_GOOD = 2
 
 ##############################################################################
+SCALE_NAMES = {
+    Scale.VERY_LOW: { "-2", "rubbish", "worst", "lowest", "horrible" },
+    Scale.LOW: { "-1", "low", "down", "meh" },
+    Scale.NEUTRAL: { "0", "okay", "flat", "neutral", "level" },
+    Scale.GOOD: { "1", "good", "upbeat", "fine" },
+    Scale.VERY_GOOD: { "2", "excellent", "great", "amazing", "wonderful", "elated" }
+}
+"""Scale to alternate name mappings."""
+
+##############################################################################
+def scale_names() -> set[ str ]:
+    """All of the names that describe the feeling scales.
+
+    Returns:
+        A set of all of the names that describe the feeling scales.
+    """
+    return set.union( *SCALE_NAMES.values() )
+
+##############################################################################
+def scale_from_name( name: str ) -> Scale:
+    """Get a feeling scale from a given name.
+
+    Args:
+        name: The name of a feeling scale.
+
+    Returns:
+        The related feeling scale.
+
+    Raises:
+        TypeError: If the name is not recognised.
+    """
+    for scale, names in SCALE_NAMES.items():
+        if name in names:
+            return scale
+    raise ValueError( f"'{name}' is not a recognised feeling scale name" )
+
+##############################################################################
 FeelingDict: TypeAlias = dict[ str, int | str ]
 
 ##############################################################################
