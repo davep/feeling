@@ -43,9 +43,8 @@ def load() -> Feelings:
     Returns:
         A `Feelings` instance.
     """
-    feelings = Feelings()
-    if feelings_file().exists():
-        feelings.from_dict( loads( feelings_file().read_text() ) )
-    return feelings
+    return Feelings().from_dict(
+        loads( feelings_file().read_text() )
+    ) if feelings_file().exists() else Feelings()
 
 ### storage.py ends here
