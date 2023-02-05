@@ -12,7 +12,8 @@ vermin = "*"
 mypy = "*"
 pylint = "*"
 twine = "*"
+typing-extensions = "*"
 
 [requires]
-python_version = "3.9"
-python_full_version = "3.9.16"
+python_version = "3.10"
+python_full_version = "3.10.9"
