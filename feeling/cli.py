@@ -37,9 +37,9 @@ def get_args() -> tuple[ Namespace, list[ str ] ]:
     # Add the optional rating parameter.
     parser.add_argument(
         "rating",
-        nargs = "?",
+        nargs   = "?",
         choices = scale_names(),
-        help  = "A description of the rating of the feeling"
+        help    = "A description of the rating of the feeling"
     )
 
     # Return the arguments.
