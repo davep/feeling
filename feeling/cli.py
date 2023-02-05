@@ -65,7 +65,7 @@ def run() -> bool:
     """Attempt to run the command line interface for the app.
 
     Returns:
-        `True` if the CLI handled things or `False` if we should go into the CHI.
+        `True` if the CLI handled things or `False` if we should go into the CHUI.
     """
 
     # Look on the command line.
