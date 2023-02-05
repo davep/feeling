@@ -1,4 +1,4 @@
-"""The main app class."""
+"""The CHUI entry point."""
 
 ##############################################################################
 # Textual imports.
@@ -31,4 +31,4 @@ def run() -> None:
     """Run the application."""
     Feeling().run()
 
-### app.py ends here
+### chui.py ends here

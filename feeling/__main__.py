@@ -2,11 +2,14 @@
 
 ##############################################################################
 # Local imports.
-from .app import run
+from . import cli, chui
 
 ##############################################################################
 # Run the app if we're being called as the main entry point.
 if __name__ == "__main__":
-    run()
+    # If the CLI didn't handle this invocation...
+    if not cli.run():
+        # ...go with the full CHUI.
+        chui.run()
 
 ### __main__.py ends here
