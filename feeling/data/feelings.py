@@ -5,6 +5,7 @@
 from __future__  import annotations
 from typing      import cast, TypeAlias
 from datetime    import datetime
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum        import Enum
 
@@ -73,8 +74,23 @@ class Feeling:
     """A description of the feeling."""
 
     @property
+    def year_key( self ) -> str:
+        """The key for the year under which to store this feeling."""
+        return self.recorded.strftime( "%Y" )
+
+    @property
+    def month_key( self ) -> str:
+        """The key for the month under which to store this feeling."""
+        return self.recorded.strftime( "%m" )
+
+    @property
+    def day_key( self ) -> str:
+        """The key for the day under which to store this feeling."""
+        return self.recorded.strftime( "%d" )
+
+    @property
     def key( self ) -> str:
-        """The key for the feeling."""
+        """The unique key under which to store this feeling."""
         return self.recorded.isoformat()
 
     @property
@@ -111,7 +127,9 @@ class Feelings:
 
     def __init__( self ) -> None:
         """Initialise the class."""
-        self._history: dict[ str, Feeling ] = {}
+        self._history: defaultdict[ str, defaultdict[ str, defaultdict[ str, dict[ str, Feeling ] ] ] ] = defaultdict(
+            lambda: defaultdict( lambda: defaultdict( dict ) )
+        )
 
     def record( self,
                 feeling: Scale | int=Scale.NEUTRAL,
@@ -135,13 +153,19 @@ class Feelings:
             Scale( feeling ),
             description
         )
-        self._history[ entry.key ] = entry
+        self._history[ entry.year_key ][ entry.month_key ][ entry.day_key ][ entry.key ] = entry
         return entry
 
     @property
     def as_dict( self ) -> FeelingsDict:
         """The feelings as a JSON-friendly dictionary."""
-        return { key: feeling.as_dict for key, feeling in self._history.items() }
+        flat_dict: FeelingsDict = {}
+        for year in self._history.values():
+            for month in year.values():
+                for day in month.values():
+                    for feeling in day.values():
+                        flat_dict[ feeling.key ] = feeling.as_dict
+        return flat_dict
 
     def from_dict( self, data: FeelingsDict ) -> "Feelings":
         """Reset the data to that given in the dictionary.
@@ -152,7 +176,9 @@ class Feelings:
         Returns:
             self
         """
-        self._history = { key: Feeling.from_dict( value ) for key, value in data.items() }
+        for value in data.values():
+            feeling = Feeling.from_dict( value )
+            self._history[ feeling.year_key ][ feeling.month_key ][ feeling.day_key ][ feeling.key ] = feeling
         return self
 
 ### feelings.py ends here
