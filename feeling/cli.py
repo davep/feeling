@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Python imports.
-from argparse import ArgumentParser, Namespace, REMAINDER
+from argparse import ArgumentParser, Namespace
 
 ##############################################################################
 # Textual imports.
@@ -10,7 +10,8 @@ from textual import __version__ as __textual_version__
 
 ##############################################################################
 # Local imports.
-from . import __version__
+from .     import __version__
+from .data import scale_names
 
 ##############################################################################
 def get_args() -> tuple[ Namespace, list[ str ] ]:
@@ -33,38 +34,13 @@ def get_args() -> tuple[ Namespace, list[ str ] ]:
         version = f"%(prog)s {__version__} (Textual v{__textual_version__})"
     )
 
-    # We're going to use sub-parsers to create mood commands.
-    subparsers = parser.add_subparsers(
-        dest        = "rating",
-        title       = "rating",
-        description = "Recognised feeling ratings",
-        help        = "The feeling ratings recognised by `feeling`"
+    # Add the optional rating parameter.
+    parser.add_argument(
+        "rating",
+        nargs = "?",
+        choices = scale_names(),
+        help  = "A description of the rating of the feeling"
     )
-
-    # Add the commands for the highest-level feeling.
-    subparsers.add_parser( "best", aliases=[
-        "2", "excellent", "amazing", "fantastic"
-    ] )
-
-    # Add the commands for the high-level feeling.
-    subparsers.add_parser( "good", aliases=[
-        "1", "upbeat"
-    ] )
-
-    # Add the commands for the neutral-level feeling.
-    subparsers.add_parser( "fine", aliases = [
-        "0", "okay", "neutral", "level"
-    ] )
-
-    # Add the commands for the low-level feeling.
-    subparsers.add_parser( "low", aliases=[
-        "-1", "down", "meh"
-    ] )
-
-    # Add the commands for the lowest-level feeling.
-    subparsers.add_parser( "lowest", aliases=[
-        "-2", "rubbish", "worst"
-    ] )
 
     # Return the arguments.
     return parser.parse_known_args()
