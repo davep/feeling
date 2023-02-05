@@ -70,15 +70,15 @@ def get_args() -> tuple[ Namespace, list[ str ] ]:
     return parser.parse_known_args()
 
 ##############################################################################
-def save_feeling( args: Namespace, description: str ) -> None:
+def save_feeling( rating: str, description: str ) -> None:
     """Save the feeling passed on the command line.
 
     Args:
-        args: The arguments found on the command line.
+        rating: The rating for the feeling.
         description: The description for the feeling.
     """
     # TODO
-    print( f"TODO: Save that we feel {args.rating} because {description}" )
+    print( f"TODO: Save that we feel {rating} because {description}" )
 
 ##############################################################################
 def run() -> bool:
@@ -93,7 +93,7 @@ def run() -> bool:
 
     # If we got given a rating, add it to the database...
     if args.rating is not None:
-        save_feeling( args, " ".join( description ) )
+        save_feeling( args.rating, " ".join( description ) )
         return True
 
     # The CLI didn't handle things.
