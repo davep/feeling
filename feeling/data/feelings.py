@@ -131,6 +131,50 @@ class Feelings:
             lambda: defaultdict( lambda: defaultdict( dict ) )
         )
 
+    def years( self ) -> tuple[ str, ... ]:
+        """Years where feelings have been recorded.
+
+        Returns:
+            All of the years that have been recorded.
+        """
+        return tuple( self._history.keys() )
+
+    def months( self, year: str ) -> tuple[ str, ... ]:
+        """Months in a year where feelings have been recorded.
+
+        Args:
+            year: The year to get the recorded months for.
+
+        Returns:
+            The months recorded for that year.
+        """
+        return tuple( self._history[ year ].keys() )
+
+    def days( self, year: str, month: str ) -> tuple[ str, ... ]:
+        """Days in a month in a year where feelings have been recorded.
+
+        Args:
+            year: The year of the month to get the recorded days for.
+            month: The year to get the record days for.
+
+        Returns:
+            The recorded days for that month in that year.
+        """
+        return tuple( self._history[ year ][ month ].keys() )
+
+    def for_day( self, year: str, month: str, day: str ) -> tuple[ Feeling, ... ]:
+        """The feelings for a given day.
+
+        Args:
+            year: The year of the month of the day to get the feelings for.
+            month: The month of the day to get the feelings for.
+            day: The day to get the feelings for.
+
+        Returns:
+            The feelings for that day.
+        """
+        return tuple( self._history[ year ][ month ][ day ].values() )
+
     def record( self,
                 feeling: Scale | int=Scale.NEUTRAL,
                 recorded: datetime | None=None,
