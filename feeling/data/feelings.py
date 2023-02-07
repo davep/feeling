@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from __future__  import annotations
-from typing      import cast, TypeAlias
+from typing      import cast, TypeAlias, Iterator
 from datetime    import datetime
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -200,16 +200,21 @@ class Feelings:
         self._history[ entry.year_key ][ entry.month_key ][ entry.day_key ][ entry.key ] = entry
         return entry
 
-    @property
-    def as_dict( self ) -> FeelingsDict:
-        """The feelings as a JSON-friendly dictionary."""
-        flat_dict: FeelingsDict = {}
+    def __iter__( self ) -> Iterator[ Feeling ]:
+        """Allow iterating through all the recorded feelings.
+
+        Yields:
+            Each feeling record.
+        """
         for year in self._history.values():
             for month in year.values():
                 for day in month.values():
-                    for feeling in day.values():
-                        flat_dict[ feeling.key ] = feeling.as_dict
-        return flat_dict
+                    yield from day.values()
+
+    @property
+    def as_dict( self ) -> FeelingsDict:
+        """The feelings as a JSON-friendly dictionary."""
+        return { feeling.key: feeling.as_dict for feeling in self }
 
     def from_dict( self, data: FeelingsDict ) -> "Feelings":
         """Reset the data to that given in the dictionary.
