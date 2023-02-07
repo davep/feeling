@@ -61,7 +61,7 @@ def load() -> Feelings:
         A `Feelings` instance.
     """
     feelings = Feelings()
-    for feeling in feelings_home().glob( "[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]/*.json" ):
+    for feeling in sorted( feelings_home().glob( "[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]/*.json" ) ):
         feelings.add( Feeling.from_dict( loads( feeling.read_text() ) ) )
     return feelings
 
