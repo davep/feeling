@@ -11,7 +11,7 @@ from textual import __version__ as __textual_version__
 ##############################################################################
 # Local imports.
 from .     import __version__
-from .data import scale_names, scale_from_name, load, save
+from .data import Feelings, scale_names, scale_from_name, save
 
 ##############################################################################
 def get_args() -> tuple[ Namespace, list[ str ] ]:
@@ -53,7 +53,7 @@ def save_feeling( rating: str, description: str ) -> None:
         rating: The rating for the feeling.
         description: The description for the feeling.
     """
-    ( feelings := load() ).record( scale_from_name( rating ), description=description )
+    ( feelings := Feelings() ).record( scale_from_name( rating ), description=description )
     save( feelings )
     if description:
         print( f"Recorded '{description}' rated {rating}" )

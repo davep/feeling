@@ -175,6 +175,18 @@ class Feelings:
         """
         return tuple( self._history[ year ][ month ][ day ].values() )
 
+    def add( self, feeling: Feeling ) -> Feeling:
+        """Add a feeling.
+
+        Args:
+            feeling: The feeling to add.
+
+        Returns:
+            The newly-added feeling entry.
+        """
+        self._history[ feeling.year_key ][ feeling.month_key ][ feeling.day_key ][ feeling.key ] = feeling
+        return feeling
+
     def record( self,
                 feeling: Scale | int=Scale.NEUTRAL,
                 recorded: datetime | None=None,
@@ -192,13 +204,11 @@ class Feelings:
         Returns:
             The newly-created feeling entry.
         """
-        entry = Feeling(
+        return self.add( Feeling(
             datetime.now() if recorded is None else recorded,
             Scale( feeling ),
             description
-        )
-        self._history[ entry.year_key ][ entry.month_key ][ entry.day_key ][ entry.key ] = entry
-        return entry
+        ) )
 
     def __iter__( self ) -> Iterator[ Feeling ]:
         """Allow iterating through all the recorded feelings.
