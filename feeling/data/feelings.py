@@ -188,6 +188,19 @@ class Feelings:
         for day in self.days( year, month ):
             yield from self.for_day( year, month, day )
 
+    def for_year( self, year: str ) -> Iterator[ Feeling ]:
+        """The feelings for a given year.
+
+        Args:
+            year: The year to get the feelings for.
+
+        Yields:
+            The feelings for that year.
+        """
+        for month in self.months( year ):
+            for day in self.days( year, month ):
+                yield from self.for_day( year, month, day )
+
     def _overall( self, feelings: Iterable[ Feeling ] ) -> Scale:
         """Calculate the overall feeling scale for a collection of feelings.
 
@@ -197,6 +210,21 @@ class Feelings:
         if ( scales := [ feeling.feeling.value for feeling in feelings ] ):
             return Scale( round( sum( scales ) / len( scales ) ) )
         return Scale.NEUTRAL
+
+    def year_scale( self, year: str ) -> Scale:
+        """Get the overall feeling scale for a given year.
+
+        Args:
+            year: The year to get the scale for.
+
+        Returns:
+            The overall scale of the feelings for that year.
+
+        Note:
+            If nothing is recorded for that year, the return value will be
+            for a neutral scale.
+        """
+        return self._overall( self.for_year( year ) )
 
     def month_scale( self, year: str, month: str ) -> Scale:
         """Get the overall feeling scale for a given month.
