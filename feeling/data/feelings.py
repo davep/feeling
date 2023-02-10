@@ -155,7 +155,7 @@ class Feelings:
 
         Args:
             year: The year of the month to get the recorded days for.
-            month: The year to get the record days for.
+            month: The month to get the record days for.
 
         Returns:
             The recorded days for that month in that year.
