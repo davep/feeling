@@ -27,7 +27,7 @@ SCALE_NAMES = {
     },
     Scale.LOW: {
         str( Scale.LOW.value ),
-        "low", "down", "meh"
+        "low", "down", "meh", "blah", "downbeat", "negative"
     },
     Scale.NEUTRAL: {
         str( Scale.NEUTRAL.value ),
@@ -35,11 +35,12 @@ SCALE_NAMES = {
     },
     Scale.GOOD: {
         str( Scale.GOOD.value ),
-        "good", "upbeat", "fine"
+        "good", "upbeat", "fine", "better", "positive"
     },
     Scale.VERY_GOOD: {
         str( Scale.VERY_GOOD.value ),
-        "excellent", "great", "amazing", "wonderful", "elated"
+        "excellent", "great", "amazing", "wonderful", "elated",
+        "fantastic", "awesome"
     }
 }
 """Scale to alternate name mappings."""
