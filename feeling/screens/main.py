@@ -42,6 +42,17 @@ class Main( Screen ):
             Scale.VERY_LOW: ":frowning:"
         }[ scale ]
 
+    @staticmethod
+    def colour( scale: Scale ) -> str:
+        """Get a colour for the label given a scale."""
+        return {
+            Scale.VERY_GOOD: "[black on spring_green2]",
+            Scale.GOOD: "[black on green3]",
+            Scale.NEUTRAL: "[black on green]",
+            Scale.LOW: "[black on orange_red1]",
+            Scale.VERY_LOW: "[white on red]"
+        }[ scale ]
+
     def on_mount( self ) -> None:
         """Populate the display once the DOM is mounted."""
         tree           = self.query_one( Tree )
