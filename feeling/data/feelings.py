@@ -162,7 +162,7 @@ class Feelings:
         """
         return tuple( self._history[ year ][ month ].keys() )
 
-    def for_day( self, year: str, month: str, day: str ) -> tuple[ Feeling, ... ]:
+    def for_day( self, year: str, month: str, day: str ) -> Iterator[ Feeling ]:
         """The feelings for a given day.
 
         Args:
@@ -170,10 +170,23 @@ class Feelings:
             month: The month of the day to get the feelings for.
             day: The day to get the feelings for.
 
-        Returns:
+        Yields:
             The feelings for that day.
         """
-        return tuple( self._history[ year ][ month ][ day ].values() )
+        yield from self._history[ year ][ month ][ day ].values()
+
+    def for_month( self, year: str, month: str ) -> Iterator[ Feeling ]:
+        """The feelings for a given month.
+
+        Args:
+            year: The year of the month of the day to get the feelings for.
+            month: The month to get the feelings for.
+
+        Yields:
+            The feelings for that month.
+        """
+        for day in self.days( year, month ):
+            yield from self.for_day( year, month, day )
 
     def _overall( self, feelings: Iterable[ Feeling ] ) -> Scale:
         """Calculate the overall feeling scale for a collection of feelings.
@@ -184,6 +197,22 @@ class Feelings:
         if ( scales := [ feeling.feeling.value for feeling in feelings ] ):
             return Scale( round( sum( scales ) / len( scales ) ) )
         return Scale.NEUTRAL
+
+    def month_scale( self, year: str, month: str ) -> Scale:
+        """Get the overall feeling scale for a given month.
+
+        Args:
+            year: The year of the month of the day to get the scale for.
+            month: The month to get the scale for.
+
+        Returns:
+            The overall scale of the feelings for that day.
+
+        Note:
+            If nothing is recorded for that month, the return value will be
+            for a neutral scale.
+        """
+        return self._overall( self.for_month( year, month ) )
 
     def day_scale( self, year: str, month: str, day: str ) -> Scale:
         """Get the overall feeling scale for a given day.
