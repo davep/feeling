@@ -23,7 +23,7 @@ class Scale( Enum ):
 SCALE_NAMES = {
     Scale.VERY_LOW: { "-2", "rubbish", "worst", "lowest", "horrible" },
     Scale.LOW: { "-1", "low", "down", "meh" },
-    Scale.NEUTRAL: { "0", "okay", "flat", "neutral", "level" },
+    Scale.NEUTRAL: { "0", "ok", "okay", "flat", "neutral", "level" },
     Scale.GOOD: { "1", "good", "upbeat", "fine" },
     Scale.VERY_GOOD: { "2", "excellent", "great", "amazing", "wonderful", "elated" }
 }
