@@ -26,14 +26,25 @@ class Main( Screen ):
     """The bindings for the main screen."""
 
     def compose( self ) -> ComposeResult:
-        """Compose the screen."""
+        """Compose the screen.
+
+        Returns:
+            The composed widgets.
+        """
         yield Header()
         yield Tree( "Feelings" )
         yield Footer()
 
     @staticmethod
     def emoji( scale: Scale ) -> str:
-        """Get an emoji to for a given scale."""
+        """Get an emoji to for a given scale.
+
+        Args:
+            scale: The scale to get the emoji for.
+
+        Returns:
+            An emoji name.
+        """
         return {
             Scale.VERY_GOOD: ":beaming_face_with_smiling_eyes:",
             Scale.GOOD: ":grinning_face:",
@@ -44,7 +55,14 @@ class Main( Screen ):
 
     @staticmethod
     def colour( scale: Scale ) -> str:
-        """Get a colour for the label given a scale."""
+        """Get a colour for the label given a scale.
+
+        Args:
+            scale: The scale to get the colour for.
+
+        Returns:
+            A colour label for Rich.
+        """
         return {
             Scale.VERY_GOOD: "[black on spring_green2]",
             Scale.GOOD: "[black on green3]",
