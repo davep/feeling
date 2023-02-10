@@ -59,17 +59,19 @@ class Main( Screen ):
         tree.show_root = False
         feelings       = load()
         for year in reversed( feelings.years() ):
-            year_node = tree.root.add( f"{year} {self.emoji( feelings.year_scale( year ) )}", expand=True )
+            year_node = tree.root.add( f"{self.colour( feelings.year_scale( year ) )}{year} {self.emoji( feelings.year_scale( year ) )}", expand=True )
             for month in reversed( feelings.months( year ) ):
                 month_node = year_node.add(
-                    f"{month} {self.emoji( feelings.month_scale( year, month ) )}",
+                    f"{self.colour( feelings.month_scale( year, month ) )}{month} {self.emoji( feelings.month_scale( year, month ) )}",
                     expand=True
                 )
                 for day in reversed( feelings.days( year, month ) ):
                     day_node = month_node.add(
-                        f"{day} {self.emoji( feelings.day_scale( year, month, day ) )}"
+                        f"{self.colour( feelings.day_scale( year, month, day ) )}{day} {self.emoji( feelings.day_scale( year, month, day ) )}"
                     )
                     for feeling in reversed( list( feelings.for_day( year, month, day ) ) ):
-                        day_node.add_leaf( Emoji.replace( f"{self.emoji( feeling.feeling )} {feeling.description}" ) )
+                        day_node.add_leaf( Emoji.replace(
+                            f"{self.colour( feeling.feeling )}{self.emoji( feeling.feeling )} {feeling.description}"
+                        ) )
 
 ### main.py ends here
