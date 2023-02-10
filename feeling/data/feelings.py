@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from __future__  import annotations
-from typing      import cast, TypeAlias, Iterator
+from typing      import cast, TypeAlias, Iterator, Iterable
 from datetime    import datetime
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -175,6 +175,16 @@ class Feelings:
         """
         return tuple( self._history[ year ][ month ][ day ].values() )
 
+    def _overall( self, feelings: Iterable[ Feeling ] ) -> Scale:
+        """Calculate the overall feeling scale for a collection of feelings.
+
+        Returns:
+           The overall scale of feeling for all of the given feelings.
+        """
+        if ( scales := [ feeling.feeling.value for feeling in feelings ] ):
+            return Scale( round( sum( scales ) / len( scales ) ) )
+        return Scale.NEUTRAL
+
     def day_scale( self, year: str, month: str, day: str ) -> Scale:
         """Get the overall feeling scale for a given day.
 
@@ -190,9 +200,7 @@ class Feelings:
             If nothing is recorded for that day, the return value will be
             for a neutral scale.
         """
-        if ( scales := [ feeling.feeling.value for feeling in self.for_day( year, month, day ) ] ):
-            return Scale( round( sum( scales ) / len( scales ) ) )
-        return Scale.NEUTRAL
+        return self._overall( self.for_day( year, month, day ) )
 
     def add( self, feeling: Feeling ) -> Feeling:
         """Add a feeling.
