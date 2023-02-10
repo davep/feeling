@@ -206,7 +206,7 @@ class Feelings:
             month: The month to get the scale for.
 
         Returns:
-            The overall scale of the feelings for that day.
+            The overall scale of the feelings for that month.
 
         Note:
             If nothing is recorded for that month, the return value will be
