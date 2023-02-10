@@ -77,6 +77,8 @@ def make_test_data() -> None:
 
     # I hate to import stuff outside of the top level, but this is just for
     # making test data so I don't need these generally.
+    #
+    # pylint:disable=import-outside-toplevel
     from random    import randint
     from datetime  import datetime, timedelta
     from .feelings import Scale
