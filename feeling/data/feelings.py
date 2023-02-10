@@ -175,6 +175,25 @@ class Feelings:
         """
         return tuple( self._history[ year ][ month ][ day ].values() )
 
+    def day_scale( self, year: str, month: str, day: str ) -> Scale:
+        """Get the overall feeling scale for a given day.
+
+        Args:
+            year: The year of the month of the day to get the scale for.
+            month: The month of the day to get the scale for.
+            day: The day to get the scale for.
+
+        Returns:
+            The overall scale of the feelings for that day.
+
+        Note:
+            If nothing is recorded for that day, the return value will be
+            for a neutral scale.
+        """
+        if ( scales := [ feeling.feeling.value for feeling in self.for_day( year, month, day ) ] ):
+            return Scale( round( sum( scales ) / len( scales ) ) )
+        return Scale.NEUTRAL
+
     def add( self, feeling: Feeling ) -> Feeling:
         """Add a feeling.
 
