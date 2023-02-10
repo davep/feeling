@@ -50,7 +50,7 @@ class Main( Screen ):
         for year in reversed( feelings.years() ):
             year_node = tree.root.add( year, expand=True )
             for month in reversed( feelings.months( year ) ):
-                month_node = year_node.add( month, expand=True )
+                month_node = year_node.add( f"{month} {self.emoji( feelings.month_scale( year, month ) )}", expand=True )
                 for day in reversed( feelings.days( year, month ) ):
                     day_node = month_node.add( f"{day} {self.emoji( feelings.day_scale( year, month, day ) )}", expand=True )
                     for feeling in reversed( list( feelings.for_day( year, month, day ) ) ):
