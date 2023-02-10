@@ -21,11 +21,26 @@ class Scale( Enum ):
 
 ##############################################################################
 SCALE_NAMES = {
-    Scale.VERY_LOW: { "-2", "rubbish", "worst", "lowest", "horrible" },
-    Scale.LOW: { "-1", "low", "down", "meh" },
-    Scale.NEUTRAL: { "0", "ok", "okay", "flat", "neutral", "level" },
-    Scale.GOOD: { "1", "good", "upbeat", "fine" },
-    Scale.VERY_GOOD: { "2", "excellent", "great", "amazing", "wonderful", "elated" }
+    Scale.VERY_LOW: {
+        str( Scale.VERY_LOW.value ),
+        "rubbish", "worst", "lowest", "horrible"
+    },
+    Scale.LOW: {
+        str( Scale.LOW.value ),
+        "low", "down", "meh"
+    },
+    Scale.NEUTRAL: {
+        str( Scale.NEUTRAL.value ),
+        "ok", "okay", "flat", "neutral", "level"
+    },
+    Scale.GOOD: {
+        str( Scale.GOOD.value ),
+        "good", "upbeat", "fine"
+    },
+    Scale.VERY_GOOD: {
+        str( Scale.VERY_GOOD.value ),
+        "excellent", "great", "amazing", "wonderful", "elated"
+    }
 }
 """Scale to alternate name mappings."""
 
