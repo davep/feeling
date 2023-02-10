@@ -194,7 +194,7 @@ class Feelings:
         """Record a feeling.
 
         Args:
-            feeling: The rating of the feeling.
+            feeling: The scale of the feeling.
             recorded: Optional time at which the feeling was recorded.
             description: A description to associate with the feeling.
 
