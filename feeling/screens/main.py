@@ -90,7 +90,7 @@ class Main( Screen ):
                 for day in reversed( feelings.days( year, month ) ):
                     day_node = month_node.add(
                         f"{self.colour( feelings.day_scale( year, month, day ) )}"
-                        "{day} {self.emoji( feelings.day_scale( year, month, day ) )}"
+                        f"{day} {self.emoji( feelings.day_scale( year, month, day ) )}"
                     )
                     for feeling in reversed( list( feelings.for_day( year, month, day ) ) ):
                         day_node.add_leaf( Emoji.replace(
