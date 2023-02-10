@@ -65,4 +65,35 @@ def load() -> Feelings:
         feelings.add( Feeling.from_dict( loads( feeling.read_text() ) ) )
     return feelings
 
+##############################################################################
+def make_test_data() -> None:
+    """Make some test data.
+
+    Note:
+        Running this *will* pollute your real data store with
+        randomly-generated test data. Don't call this unless that's what you
+        want.
+    """
+
+    # I hate to import stuff outside of the top level, but this is just for
+    # making test data so I don't need these generally.
+    from random    import randint
+    from datetime  import datetime, timedelta
+    from .feelings import Scale
+
+    start      = datetime( 2000, 1, 1, 0, 0, 0, 0 )
+    end        = datetime.now()
+    date_range = int( ( end - start ).total_seconds() )
+    feelings   = Feelings()
+
+    for _ in range( 50 ):
+        feelings.add(
+            Feeling(
+                start + timedelta( seconds=randint( 0, date_range ) ),
+                Scale( randint( -2, 2 ) ),
+                "Random test feeling data"
+            )
+        )
+    save( feelings )
+
 ### storage.py ends here
