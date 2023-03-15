@@ -78,6 +78,22 @@ class FeelingItem( ListItem ):
         }[ scale ]
 
 ##############################################################################
+class Feeling( FeelingItem ):
+    """A list item that's an individual feeling record."""
+
+    def __init__( self, feelings: Feelings, key: str ) -> None:
+        super().__init__( feelings )
+        self._key = key
+
+    def compose( self ) -> ComposeResult:
+        """Compose the child widgets."""
+        feeling = self._feelings[ self._key ]
+        yield Label(
+            Text.from_markup( f"{self.emoji( feeling.feeling )} {feeling.recorded} {feeling.description}" ),
+            classes=feeling.feeling.name.lower()
+        )
+
+##############################################################################
 class Day( FeelingItem ):
     """A list item that's a day's feeling information."""
 
@@ -86,6 +102,14 @@ class Day( FeelingItem ):
         self._year        = year
         self._month       = month
         self._day         = day
+
+    @property
+    def feelings( self ) -> list[ Feeling ]:
+        """The feelings recorded for this day."""
+        return [
+            Feeling( self._feelings, feeling.key )
+            for feeling in self._feelings.for_day( self._year, self._month, self._day )
+        ]
 
     def compose( self ) -> ComposeResult:
         """Compose the child widgets."""
@@ -211,15 +235,30 @@ class Main( Screen ):
             for day in month.days:
                 await self.days.append( day )
 
+    async def show_day( self, day: ListItem | None ) -> None:
+        """Show the data for the given day.
+
+        Args:
+            day: The day to show the data for, or `None` if no day active.
+        """
+        await self.feelings.clear()
+        if day is not None:
+            assert isinstance( day, Day )
+            for feeling in day.feelings:
+                await self.feelings.append( feeling )
+
     async def on_list_view_highlighted( self, event: ListView.Highlighted ) -> None:
         """Handle list view highlight events.
 
         Args:
             event: The ListView highlight event to handle.
         """
-        if event.list_view.id == "years":
-            await self.show_year( event.item )
-        elif event.list_view.id == "months":
-            await self.show_month( event.item )
+        if event.list_view.id is not None:
+            try:
+                await dict(
+                    years=self.show_year, months=self.show_month, days=self.show_day
+                )[ event.list_view.id ]( event.item )
+            except KeyError:
+                pass
 
 ### main.py ends here
