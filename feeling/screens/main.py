@@ -115,8 +115,10 @@ class Day( FeelingItem ):
         """Compose the child widgets."""
         scale = self._feelings.day_scale( self._year, self._month, self._day )
         yield Label(
-            Text.from_markup( f"{self.emoji( scale )} {self._year}-{self._month}-{self._day}" ),
-            classes=scale.name.lower()
+            Text.from_markup(
+                f"{self.emoji( scale )} {self._year}-{self._month}-{self._day} "
+                f"{self._feelings.day_value( self._year, self._month, self._day ):6.2f}"
+            ), classes=scale.name.lower()
         )
 
 ##############################################################################
@@ -140,8 +142,10 @@ class Month( FeelingItem ):
         """Compose the child widgets."""
         scale = self._feelings.month_scale( self._year, self._month )
         yield Label(
-            Text.from_markup( f"{self.emoji( scale )} {self._year}-{self._month}" ),
-            classes=scale.name.lower()
+            Text.from_markup(
+                f"{self.emoji( scale )} {self._year}-{self._month} "
+                f"{self._feelings.month_value( self._year, self._month ):6.2f}"
+            ), classes=scale.name.lower()
         )
 
 ##############################################################################
@@ -164,8 +168,10 @@ class Year( FeelingItem ):
         """Compose the child widgets."""
         scale = self._feelings.year_scale( self._year )
         yield Label(
-            Text.from_markup( f"{self.emoji( scale )} {self._year}" ),
-            classes=scale.name.lower()
+            Text.from_markup(
+                f"{self.emoji( scale )} {self._year} "
+                f"{self._feelings.year_value( self._year ):6.2f}"
+            ), classes=scale.name.lower()
         )
 
 ##############################################################################
