@@ -217,15 +217,23 @@ class Feelings:
             for day in self.days( year, month ):
                 yield from self.for_day( year, month, day )
 
-    def _overall( self, feelings: Iterable[ Feeling ] ) -> Scale:
+    def _overall_value( self, feelings: Iterable[ Feeling ] ) -> float:
+        """Calculate the overall feeling value for a collection of feelings.
+
+        Returns:
+           The overall value of feeling for all of the given feelings.
+        """
+        if ( values := [ feeling.feeling.value for feeling in feelings ] ):
+            return sum( values ) / len( values )
+        return 0.0
+
+    def _overall_scale( self, feelings: Iterable[ Feeling ] ) -> Scale:
         """Calculate the overall feeling scale for a collection of feelings.
 
         Returns:
            The overall scale of feeling for all of the given feelings.
         """
-        if ( scales := [ feeling.feeling.value for feeling in feelings ] ):
-            return Scale( round( sum( scales ) / len( scales ) ) )
-        return Scale.NEUTRAL
+        return Scale( round( self._overall_value( feelings ) ) )
 
     def year_scale( self, year: str ) -> Scale:
         """Get the overall feeling scale for a given year.
@@ -240,7 +248,22 @@ class Feelings:
             If nothing is recorded for that year, the return value will be
             for a neutral scale.
         """
-        return self._overall( self.for_year( year ) )
+        return self._overall_scale( self.for_year( year ) )
+
+    def year_value( self, year: str ) -> float:
+        """Get the overall feeling value for a given year.
+
+        Args:
+            year: The year to get the scale for.
+
+        Returns:
+            The overall value of the feelings for that year.
+
+        Note:
+            If nothing is recorded for that year, the return value will be
+            for a neutral value.
+        """
+        return self._overall_value( self.for_year( year ) )
 
     def month_scale( self, year: str, month: str ) -> Scale:
         """Get the overall feeling scale for a given month.
@@ -256,7 +279,23 @@ class Feelings:
             If nothing is recorded for that month, the return value will be
             for a neutral scale.
         """
-        return self._overall( self.for_month( year, month ) )
+        return self._overall_scale( self.for_month( year, month ) )
+
+    def month_value( self, year: str, month: str ) -> float:
+        """Get the overall feeling value for a given month.
+
+        Args:
+            year: The year of the month of the day to get the value for.
+            month: The month to get the value for.
+
+        Returns:
+            The overall value of the feelings for that month.
+
+        Note:
+            If nothing is recorded for that month, the return value will be
+            for a neutral value.
+        """
+        return self._overall_value( self.for_month( year, month ) )
 
     def day_scale( self, year: str, month: str, day: str ) -> Scale:
         """Get the overall feeling scale for a given day.
@@ -273,7 +312,24 @@ class Feelings:
             If nothing is recorded for that day, the return value will be
             for a neutral scale.
         """
-        return self._overall( self.for_day( year, month, day ) )
+        return self._overall_scale( self.for_day( year, month, day ) )
+
+    def day_value( self, year: str, month: str, day: str ) -> float:
+        """Get the overall feeling value for a given day.
+
+        Args:
+            year: The year of the month of the day to get the value for.
+            month: The month of the day to get the value for.
+            day: The day to get the value for.
+
+        Returns:
+            The overall value of the feelings for that day.
+
+        Note:
+            If nothing is recorded for that day, the return value will be
+            for a neutral value.
+        """
+        return self._overall_value( self.for_day( year, month, day ) )
 
     def add( self, feeling: Feeling ) -> Feeling:
         """Add a feeling.
