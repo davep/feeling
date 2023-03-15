@@ -280,9 +280,11 @@ class Main( Screen ):
         """
         if event.list_view.id is not None:
             try:
-                await dict(
-                    years=self.show_year, months=self.show_month, days=self.show_day
-                )[ event.list_view.id ]( event.item )
+                await {
+                    "years": self.show_year,
+                    "months": self.show_month,
+                    "days": self.show_day
+                }[ event.list_view.id ]( event.item )
             except KeyError:
                 pass
 
