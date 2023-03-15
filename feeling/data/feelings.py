@@ -340,4 +340,7 @@ class Feelings:
             self._history[ feeling.year_key ][ feeling.month_key ][ feeling.day_key ][ feeling.key ] = feeling
         return self
 
+    def __getitem__( self, key: str ) -> Feeling:
+        return self._history[ key[ 0:4 ] ][ key[ 5:7 ] ][ key[ 8:10 ] ][ key ]
+
 ### feelings.py ends here
