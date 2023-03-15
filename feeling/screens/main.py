@@ -221,13 +221,13 @@ class Main( Screen ):
         yield Header()
         with Horizontal():
             with ListView( id="years" ) as years:
-                self.years = years # pylint:disable=attribute-defined-outside-init
+                self.years = years
             with ListView( id="months" ) as months:
-                self.months = months# pylint:disable=attribute-defined-outside-init
+                self.months = months
             with ListView( id="days" ) as days:
-                self.days = days # pylint:disable=attribute-defined-outside-init
+                self.days = days
             with ListView( id="feelings" ) as feelings:
-                self.feelings = feelings # pylint:disable=attribute-defined-outside-init
+                self.feelings = feelings
         yield Footer()
 
     async def on_mount( self ) -> None:
