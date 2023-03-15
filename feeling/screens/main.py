@@ -22,32 +22,36 @@ class FeelingItem( ListItem ):
 
     DEFAULT_CSS = """
     FeelingItem {
-        padding: 1;
+        height: 3;
+        padding: 0 2 0 2;
     }
 
     FeelingItem > Label {
         width: 100%;
+        height: 100%;
         color: black;
+        padding: 1 0 0 1;
     }
 
     FeelingItem > Label.very_low {
-        background: red 80%;
+        color: white;
+        background: red;
     }
 
     FeelingItem > Label.low {
-        background: red 30%;
+        background: #ff5f00;
     }
 
     FeelingItem > Label.neutral {
-        background: green 60%;
+        background: #008700;
     }
 
     FeelingItem > Label.good {
-        background: green 80%;
+        background: #00d700;
     }
 
     FeelingItem > Label.very_good {
-        background: green;
+        background: #00ff5f;
     }
     """
 
