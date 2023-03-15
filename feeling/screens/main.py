@@ -81,6 +81,18 @@ class FeelingItem( ListItem ):
 class Feeling( FeelingItem ):
     """A list item that's an individual feeling record."""
 
+    DEFAULT_CSS = """
+    Feeling {
+        height: auto;
+        border: hkey black;
+    }
+
+    Feeling > Label {
+        height: auto;
+        padding: 1;
+    }
+    """
+
     def __init__( self, feelings: Feelings, key: str ) -> None:
         super().__init__( feelings )
         self._key = key
@@ -89,7 +101,14 @@ class Feeling( FeelingItem ):
         """Compose the child widgets."""
         feeling = self._feelings[ self._key ]
         yield Label(
-            Text.from_markup( f"{self.emoji( feeling.feeling )} {feeling.recorded} {feeling.description}" ),
+            Text.assemble(
+                Text.from_markup( self.emoji( feeling.feeling ) ),
+                f" {feeling.recorded:%H:%M:%S}",
+                *(
+                    [ f"\n\n{feeling.description}" ]
+                    if feeling.description else []
+                )
+            ),
             classes=feeling.feeling.name.lower()
         )
 
