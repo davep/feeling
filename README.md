@@ -10,6 +10,17 @@ time, and an application (built with
 [Textual](https://textual.textualize.io/) for reviewing the recorded
 feelings.
 
+## Installation
+
+Feeling can be installed using [`pipx`](https://pypa.github.io/pipx/):
+
+```sh
+$ pipx install feeling-cli
+```
+
+**NOTE:** The package name (`feeling-cli`) is slightly different from the
+actual application name because the package name wasn't available via PyPi.
+
 ## Usage
 
 Feeling is one command that is split into two parts. There is a simple
