@@ -96,7 +96,7 @@ repl:				# Start a Python REPL
 
 .PHONY: clean
 clean:				# Clean the build directories
-	rm -rf build dist $(app).egg-info
+	rm -rf build dist $(app)_cli.egg-info
 
 .PHONY: help
 help:				# Display this help
