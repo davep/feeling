@@ -235,6 +235,7 @@ class Main( Screen ):
         self.data = load() # pylint:disable=attribute-defined-outside-init
         for year in reversed( self.data.years() ):
             await self.years.append( Year( self.data, year ) )
+        self.years.focus()
 
     async def show_year( self, year: ListItem | None ) -> None:
         """Show the data for the given year.
