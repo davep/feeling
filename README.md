@@ -1,5 +1,7 @@
 # Feeling
 
+![Feeling in action](https://raw.githubusercontent.com/davep/feeling/main/img/feeling.png)
+
 ## Introduction
 
 Feeling is designed to be a simple terminal-based feelings tracker,
