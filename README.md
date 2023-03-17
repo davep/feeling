@@ -130,6 +130,7 @@ Things I aim to do:
 - [ ] Generally improve the main application user interface.
 - [ ] Add the ability to edit items within the main application.
 - [ ] Add the ability to remove items within the main application.
+- [ ] Add the ability to override the storage location.
 
 ## Licence
 
