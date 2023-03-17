@@ -16,7 +16,7 @@ class Feeling( App[ None ] ):
     TITLE = "Feeling"
     """The title of the application."""
 
-    SUB_TITLE  = f"The simple terminal feeling tracker - v{__version__}"
+    SUB_TITLE = f"The simple terminal feeling tracker - v{__version__}"
     """The subtitle of the application."""
 
     def on_mount( self ) -> None:
