@@ -19,12 +19,9 @@ class Feeling( App[ None ] ):
     SUB_TITLE  = f"The simple terminal feeling tracker - v{__version__}"
     """The subtitle of the application."""
 
-    SCREENS = { "main": Main }
-    """The screens for the application."""
-
     def on_mount( self ) -> None:
         """Initialise the application on startup."""
-        self.push_screen( "main" )
+        self.push_screen( Main() )
 
 ##############################################################################
 def run() -> None:
