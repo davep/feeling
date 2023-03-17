@@ -7,7 +7,7 @@
 Feeling is designed to be a simple terminal-based feelings tracker,
 providing a simple command line interface for recording a feeling at any
 time, and an application (built with
-[Textual](https://textual.textualize.io/) for reviewing the recorded
+[Textual](https://textual.textualize.io/)) for reviewing the recorded
 feelings.
 
 ## Installation
@@ -19,7 +19,8 @@ $ pipx install feeling-cli
 ```
 
 **NOTE:** The package name (`feeling-cli`) is slightly different from the
-actual application name because the package name wasn't available via PyPi.
+actual application name (`feeling`) because the package name wasn't
+available via PyPi.
 
 ## Usage
 
