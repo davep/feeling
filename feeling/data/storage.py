@@ -47,6 +47,27 @@ def feeling_record( feeling: Feeling ) -> Path:
     return ( day / feeling.key.replace( ":", "-" ).replace( ".", "-" ) ).with_suffix( ".json" )
 
 ##############################################################################
+def delete_feeling( feeling: Feeling ) -> None:
+    """Delete a single feeling.
+
+    Args:
+        feeling: The feeling record to delete from the data store.
+    """
+    # If the feeling as a record in the data store...
+    if ( record := feeling_record( feeling ) ).exists():
+        # ...remove that.
+        record.unlink()
+
+    # While we're here, we might as well try and remove the directory
+    # that contains it too. Rather than check if the directory is empty
+    # then try and remove it, let's just remove it and let rmdir get
+    # upset at us if it isn't empty.
+    try:
+        record.parent.rmdir()
+    except OSError:
+        pass
+
+##############################################################################
 def save( feelings: Feelings ) -> None:
     """Save the feelings.
 
