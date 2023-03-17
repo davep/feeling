@@ -31,6 +31,9 @@ def feelings_home() -> Path:
 def feeling_record( feeling: Feeling ) -> Path:
     """Return the path to the file for a particular feeling.
 
+    Args:
+        feeling: The feeling to get the storage record path for.
+
     Returns:
         The path to the file where the feeling is held.
 
