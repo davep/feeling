@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4b6a7e043e5db1545708896eeea9ed1feb7b16d83d5e2fa64a87bb2b8c31ba3e"
+            "sha256": "fc3ae2709eb53f06f3c4ea91fac5ac44d168d81134184be5225fa452e99ccefa"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -643,15 +643,6 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==2.2.1"
-        },
-        "vermin": {
-            "hashes": [
-                "sha256:6266ca02f55d1c2aa189a610017c132eb2d1934f09e72a955b1eb3820ee6d4ef",
-                "sha256:f1fa9ee40f59983dc40e0477eb2b1fa8061a3df4c3b2bcf349add462a5610efb"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.0'",
-            "version": "==1.6.0"
         },
         "virtualenv": {
             "hashes": [

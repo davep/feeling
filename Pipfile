@@ -8,7 +8,6 @@ textual = "*"
 xdg = "*"
 
 [dev-packages]
-vermin = "*"
 mypy = "*"
 pylint = "*"
 twine = "*"
