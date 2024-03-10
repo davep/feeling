@@ -3,7 +3,7 @@
 ######################################################################
 # Main app information.
 __author__     = "Dave Pearson"
-__copyright__  = "Copyright 2023, Dave Pearson"
+__copyright__  = "Copyright 2023-2024, Dave Pearson"
 __credits__    = [ "Dave Pearson" ]
 __maintainer__ = "Dave Pearson"
 __email__      = "davep@davep.org"
