@@ -2,7 +2,8 @@
 
 ##############################################################################
 # Local imports.
-from . import cli, chui
+from . import chui, cli
+
 
 ##############################################################################
 def main() -> None:
@@ -11,6 +12,7 @@ def main() -> None:
     if not cli.run():
         # ...go with the full CHUI.
         chui.run()
+
 
 ##############################################################################
 # Run the app if we're being called as the main entry point.

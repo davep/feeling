@@ -2,8 +2,8 @@
 
 ##############################################################################
 # Import public code.
-from .feelings import Feeling, Feelings, Scale, scale_names, scale_from_name
-from .storage  import save, load
+from .feelings import Feeling, Feelings, Scale, scale_from_name, scale_names
+from .storage import load, save
 
 ##############################################################################
 # Export public code.
@@ -14,7 +14,7 @@ __all__ = [
     "scale_names",
     "scale_from_name",
     "save",
-    "load"
+    "load",
 ]
 
 ### __init__.py ends here

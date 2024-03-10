@@ -1,61 +1,75 @@
 """Defines the code for loading/holding/saving the feeling data."""
 
 ##############################################################################
-# Python imports.
-from __future__  import annotations
-from typing      import cast, TypeAlias, Iterator, Iterable
-from datetime    import datetime
-from collections import defaultdict
-from dataclasses import dataclass, field
-from enum        import Enum
+# Backward compatibility.
+from __future__ import annotations
 
 ##############################################################################
-class Scale( Enum ):
+# Python imports.
+from collections import defaultdict
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Iterable, Iterator, TypeAlias, cast
+
+
+##############################################################################
+class Scale(Enum):
     """The scale of feelings."""
 
-    VERY_LOW  = -2
-    LOW       = -1
-    NEUTRAL   = 0
-    GOOD      = 1
+    VERY_LOW = -2
+    LOW = -1
+    NEUTRAL = 0
+    GOOD = 1
     VERY_GOOD = 2
+
 
 ##############################################################################
 SCALE_NAMES = {
     Scale.VERY_LOW: {
-        str( Scale.VERY_LOW.value ),
-        "rubbish", "worst", "lowest", "horrible"
+        str(Scale.VERY_LOW.value),
+        "rubbish",
+        "worst",
+        "lowest",
+        "horrible",
     },
     Scale.LOW: {
-        str( Scale.LOW.value ),
-        "low", "down", "meh", "blah", "downbeat", "negative"
+        str(Scale.LOW.value),
+        "low",
+        "down",
+        "meh",
+        "blah",
+        "downbeat",
+        "negative",
     },
-    Scale.NEUTRAL: {
-        str( Scale.NEUTRAL.value ),
-        "ok", "okay", "flat", "neutral", "level"
-    },
-    Scale.GOOD: {
-        str( Scale.GOOD.value ),
-        "good", "upbeat", "fine", "better", "positive"
-    },
+    Scale.NEUTRAL: {str(Scale.NEUTRAL.value), "ok", "okay", "flat", "neutral", "level"},
+    Scale.GOOD: {str(Scale.GOOD.value), "good", "upbeat", "fine", "better", "positive"},
     Scale.VERY_GOOD: {
-        str( Scale.VERY_GOOD.value ),
-        "excellent", "great", "amazing", "wonderful", "elated",
-        "fantastic", "awesome"
-    }
+        str(Scale.VERY_GOOD.value),
+        "excellent",
+        "great",
+        "amazing",
+        "wonderful",
+        "elated",
+        "fantastic",
+        "awesome",
+    },
 }
 """Scale to alternate name mappings."""
 
+
 ##############################################################################
-def scale_names() -> set[ str ]:
+def scale_names() -> set[str]:
     """All of the names that describe the feeling scales.
 
     Returns:
         A set of all of the names that describe the feeling scales.
     """
-    return set.union( *SCALE_NAMES.values() )
+    return set.union(*SCALE_NAMES.values())
+
 
 ##############################################################################
-def scale_from_name( name: str ) -> Scale:
+def scale_from_name(name: str) -> Scale:
     """Get a feeling scale from a given name.
 
     Args:
@@ -70,17 +84,19 @@ def scale_from_name( name: str ) -> Scale:
     for scale, names in SCALE_NAMES.items():
         if name in names:
             return scale
-    raise ValueError( f"'{name}' is not a recognised feeling scale name" )
+    raise ValueError(f"'{name}' is not a recognised feeling scale name")
+
 
 ##############################################################################
-FeelingDict: TypeAlias = dict[ str, int | str ]
+FeelingDict: TypeAlias = dict[str, int | str]
+
 
 ##############################################################################
 @dataclass
 class Feeling:
     """Class to hold an individual feeling."""
 
-    recorded: datetime = field( default_factory=datetime.now )
+    recorded: datetime = field(default_factory=datetime.now)
     """When the feeling was recorded."""
 
     feeling: Scale = Scale.NEUTRAL
@@ -90,36 +106,36 @@ class Feeling:
     """A description of the feeling."""
 
     @property
-    def year_key( self ) -> str:
+    def year_key(self) -> str:
         """The key for the year under which to store this feeling."""
-        return self.recorded.strftime( "%Y" )
+        return self.recorded.strftime("%Y")
 
     @property
-    def month_key( self ) -> str:
+    def month_key(self) -> str:
         """The key for the month under which to store this feeling."""
-        return self.recorded.strftime( "%m" )
+        return self.recorded.strftime("%m")
 
     @property
-    def day_key( self ) -> str:
+    def day_key(self) -> str:
         """The key for the day under which to store this feeling."""
-        return self.recorded.strftime( "%d" )
+        return self.recorded.strftime("%d")
 
     @property
-    def key( self ) -> str:
+    def key(self) -> str:
         """The unique key under which to store this feeling."""
         return self.recorded.isoformat()
 
     @property
-    def as_dict( self ) -> FeelingDict:
+    def as_dict(self) -> FeelingDict:
         """The feeling as a JSON-friendly dictionary."""
         return {
-            "recorded":    self.recorded.isoformat(),
-            "feeling":     self.feeling.value,
-            "description": self.description
+            "recorded": self.recorded.isoformat(),
+            "feeling": self.feeling.value,
+            "description": self.description,
         }
 
     @classmethod
-    def from_dict( cls, data: FeelingDict ) -> "Feeling":
+    def from_dict(cls, data: FeelingDict) -> "Feeling":
         """Create a feeling entry from the given dictionary.
 
         Args:
@@ -129,33 +145,35 @@ class Feeling:
             A new `Feeling` object.
         """
         return cls(
-            datetime.fromisoformat( cast( str, data[ "recorded" ] ) ),
-            Scale( cast( int, data[ "feeling" ] ) ),
-            cast( str, data[ "description" ] )
+            datetime.fromisoformat(cast(str, data["recorded"])),
+            Scale(cast(int, data["feeling"])),
+            cast(str, data["description"]),
         )
 
+
 ##############################################################################
-FeelingsDict: TypeAlias = dict[ str, FeelingDict ]
+FeelingsDict: TypeAlias = dict[str, FeelingDict]
+
 
 ##############################################################################
 class Feelings:
     """Class to hold the feeling data."""
 
-    def __init__( self ) -> None:
+    def __init__(self) -> None:
         """Initialise the class."""
-        self._history: defaultdict[ str, defaultdict[ str, defaultdict[ str, dict[ str, Feeling ] ] ] ] = defaultdict(
-            lambda: defaultdict( lambda: defaultdict( dict ) )
-        )
+        self._history: defaultdict[
+            str, defaultdict[str, defaultdict[str, dict[str, Feeling]]]
+        ] = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
 
-    def years( self ) -> tuple[ str, ... ]:
+    def years(self) -> tuple[str, ...]:
         """Years where feelings have been recorded.
 
         Returns:
             All of the years that have been recorded.
         """
-        return tuple( self._history.keys() )
+        return tuple(self._history.keys())
 
-    def months( self, year: str ) -> tuple[ str, ... ]:
+    def months(self, year: str) -> tuple[str, ...]:
         """Months in a year where feelings have been recorded.
 
         Args:
@@ -164,9 +182,9 @@ class Feelings:
         Returns:
             The months recorded for that year.
         """
-        return tuple( self._history[ year ].keys() )
+        return tuple(self._history[year].keys())
 
-    def days( self, year: str, month: str ) -> tuple[ str, ... ]:
+    def days(self, year: str, month: str) -> tuple[str, ...]:
         """Days in a month in a year where feelings have been recorded.
 
         Args:
@@ -176,9 +194,9 @@ class Feelings:
         Returns:
             The recorded days for that month in that year.
         """
-        return tuple( self._history[ year ][ month ].keys() )
+        return tuple(self._history[year][month].keys())
 
-    def for_day( self, year: str, month: str, day: str ) -> Iterator[ Feeling ]:
+    def for_day(self, year: str, month: str, day: str) -> Iterator[Feeling]:
         """The feelings for a given day.
 
         Args:
@@ -189,9 +207,9 @@ class Feelings:
         Yields:
             The feelings for that day.
         """
-        yield from self._history[ year ][ month ][ day ].values()
+        yield from self._history[year][month][day].values()
 
-    def for_month( self, year: str, month: str ) -> Iterator[ Feeling ]:
+    def for_month(self, year: str, month: str) -> Iterator[Feeling]:
         """The feelings for a given month.
 
         Args:
@@ -201,10 +219,10 @@ class Feelings:
         Yields:
             The feelings for that month.
         """
-        for day in self.days( year, month ):
-            yield from self.for_day( year, month, day )
+        for day in self.days(year, month):
+            yield from self.for_day(year, month, day)
 
-    def for_year( self, year: str ) -> Iterator[ Feeling ]:
+    def for_year(self, year: str) -> Iterator[Feeling]:
         """The feelings for a given year.
 
         Args:
@@ -213,29 +231,29 @@ class Feelings:
         Yields:
             The feelings for that year.
         """
-        for month in self.months( year ):
-            for day in self.days( year, month ):
-                yield from self.for_day( year, month, day )
+        for month in self.months(year):
+            for day in self.days(year, month):
+                yield from self.for_day(year, month, day)
 
-    def _overall_value( self, feelings: Iterable[ Feeling ] ) -> float:
+    def _overall_value(self, feelings: Iterable[Feeling]) -> float:
         """Calculate the overall feeling value for a collection of feelings.
 
         Returns:
            The overall value of feeling for all of the given feelings.
         """
-        if ( values := [ feeling.feeling.value for feeling in feelings ] ):
-            return sum( values ) / len( values )
+        if values := [feeling.feeling.value for feeling in feelings]:
+            return sum(values) / len(values)
         return 0.0
 
-    def _overall_scale( self, feelings: Iterable[ Feeling ] ) -> Scale:
+    def _overall_scale(self, feelings: Iterable[Feeling]) -> Scale:
         """Calculate the overall feeling scale for a collection of feelings.
 
         Returns:
            The overall scale of feeling for all of the given feelings.
         """
-        return Scale( round( self._overall_value( feelings ) ) )
+        return Scale(round(self._overall_value(feelings)))
 
-    def year_scale( self, year: str ) -> Scale:
+    def year_scale(self, year: str) -> Scale:
         """Get the overall feeling scale for a given year.
 
         Args:
@@ -248,9 +266,9 @@ class Feelings:
             If nothing is recorded for that year, the return value will be
             for a neutral scale.
         """
-        return self._overall_scale( self.for_year( year ) )
+        return self._overall_scale(self.for_year(year))
 
-    def year_value( self, year: str ) -> float:
+    def year_value(self, year: str) -> float:
         """Get the overall feeling value for a given year.
 
         Args:
@@ -263,9 +281,9 @@ class Feelings:
             If nothing is recorded for that year, the return value will be
             for a neutral value.
         """
-        return self._overall_value( self.for_year( year ) )
+        return self._overall_value(self.for_year(year))
 
-    def month_scale( self, year: str, month: str ) -> Scale:
+    def month_scale(self, year: str, month: str) -> Scale:
         """Get the overall feeling scale for a given month.
 
         Args:
@@ -279,9 +297,9 @@ class Feelings:
             If nothing is recorded for that month, the return value will be
             for a neutral scale.
         """
-        return self._overall_scale( self.for_month( year, month ) )
+        return self._overall_scale(self.for_month(year, month))
 
-    def month_value( self, year: str, month: str ) -> float:
+    def month_value(self, year: str, month: str) -> float:
         """Get the overall feeling value for a given month.
 
         Args:
@@ -295,9 +313,9 @@ class Feelings:
             If nothing is recorded for that month, the return value will be
             for a neutral value.
         """
-        return self._overall_value( self.for_month( year, month ) )
+        return self._overall_value(self.for_month(year, month))
 
-    def day_scale( self, year: str, month: str, day: str ) -> Scale:
+    def day_scale(self, year: str, month: str, day: str) -> Scale:
         """Get the overall feeling scale for a given day.
 
         Args:
@@ -312,9 +330,9 @@ class Feelings:
             If nothing is recorded for that day, the return value will be
             for a neutral scale.
         """
-        return self._overall_scale( self.for_day( year, month, day ) )
+        return self._overall_scale(self.for_day(year, month, day))
 
-    def day_value( self, year: str, month: str, day: str ) -> float:
+    def day_value(self, year: str, month: str, day: str) -> float:
         """Get the overall feeling value for a given day.
 
         Args:
@@ -329,9 +347,9 @@ class Feelings:
             If nothing is recorded for that day, the return value will be
             for a neutral value.
         """
-        return self._overall_value( self.for_day( year, month, day ) )
+        return self._overall_value(self.for_day(year, month, day))
 
-    def add( self, feeling: Feeling ) -> Feeling:
+    def add(self, feeling: Feeling) -> Feeling:
         """Add a feeling.
 
         Args:
@@ -340,13 +358,17 @@ class Feelings:
         Returns:
             The newly-added feeling entry.
         """
-        self._history[ feeling.year_key ][ feeling.month_key ][ feeling.day_key ][ feeling.key ] = feeling
+        self._history[feeling.year_key][feeling.month_key][feeling.day_key][
+            feeling.key
+        ] = feeling
         return feeling
 
-    def record( self,
-                feeling: Scale | int=Scale.NEUTRAL,
-                recorded: datetime | None=None,
-                description: str="" ) -> Feeling:
+    def record(
+        self,
+        feeling: Scale | int = Scale.NEUTRAL,
+        recorded: datetime | None = None,
+        description: str = "",
+    ) -> Feeling:
         """Record a feeling.
 
         Args:
@@ -360,13 +382,15 @@ class Feelings:
         Returns:
             The newly-created feeling entry.
         """
-        return self.add( Feeling(
-            datetime.now() if recorded is None else recorded,
-            Scale( feeling ),
-            description
-        ) )
+        return self.add(
+            Feeling(
+                datetime.now() if recorded is None else recorded,
+                Scale(feeling),
+                description,
+            )
+        )
 
-    def __iter__( self ) -> Iterator[ Feeling ]:
+    def __iter__(self) -> Iterator[Feeling]:
         """Allow iterating through all the recorded feelings.
 
         Yields:
@@ -378,11 +402,11 @@ class Feelings:
                     yield from day.values()
 
     @property
-    def as_dict( self ) -> FeelingsDict:
+    def as_dict(self) -> FeelingsDict:
         """The feelings as a JSON-friendly dictionary."""
-        return { feeling.key: feeling.as_dict for feeling in self }
+        return {feeling.key: feeling.as_dict for feeling in self}
 
-    def from_dict( self, data: FeelingsDict ) -> "Feelings":
+    def from_dict(self, data: FeelingsDict) -> "Feelings":
         """Reset the data to that given in the dictionary.
 
         Args:
@@ -392,11 +416,14 @@ class Feelings:
             self
         """
         for value in data.values():
-            feeling = Feeling.from_dict( value )
-            self._history[ feeling.year_key ][ feeling.month_key ][ feeling.day_key ][ feeling.key ] = feeling
+            feeling = Feeling.from_dict(value)
+            self._history[feeling.year_key][feeling.month_key][feeling.day_key][
+                feeling.key
+            ] = feeling
         return self
 
-    def __getitem__( self, key: str ) -> Feeling:
-        return self._history[ key[ 0:4 ] ][ key[ 5:7 ] ][ key[ 8:10 ] ][ key ]
+    def __getitem__(self, key: str) -> Feeling:
+        return self._history[key[0:4]][key[5:7]][key[8:10]][key]
+
 
 ### feelings.py ends here
